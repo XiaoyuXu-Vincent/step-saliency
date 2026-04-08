@@ -4,6 +4,16 @@ Official code for **"Reasoning Fails Where Step Flow Breaks"** (ACL 2026).
 
 Step-Saliency is a step-level diagnostic that aggregates token-level attention-gradient saliency into step-to-step maps, revealing two depth-wise information-flow failure patterns in large reasoning models (LRMs): **Shallow Lock-in** and **Deep Decay**. StepFlow is a lightweight test-time intervention with two components -- **Odds-Equal Bridge (OEB)** for shallow layers and **Step Momentum Injection (SMI)** for deep layers -- that repairs these failure patterns and consistently improves accuracy without retraining.
 
+<p align="center">
+  <img src="assets/motivation.png" width="100%" alt="From token-level to step-level saliency"/>
+</p>
+<p align="center"><em>Figure 1: Token-level saliency maps are dense and noisy; Step-Saliency pools them into question/thinking/summary blocks. Correct traces show smooth information flow, while errors exhibit shallow lock-in and weak thinking→summary links.</em></p>
+
+<p align="center">
+  <img src="assets/information_flow_comparsion.png" width="100%" alt="Step-Saliency patterns for shallow vs. deep layers"/>
+</p>
+<p align="center"><em>Figure 2: Step-Saliency patterns for shallow vs. deep layers and correct vs. error traces. Shallow Lock-in (narrow local flow in error traces) and Deep Decay (faster saliency loss in deep layers).</em></p>
+
 ## Project Structure
 
 ```
@@ -83,17 +93,6 @@ Override via CLI:
 --smi-strength 0.06       # SMI residual scale alpha
 --oeb-layers 1,3,5,7     # Specific OEB layers
 --tau-max 0.15            # OEB bridge mass upper bound
-```
-
-## Citation
-
-```bibtex
-@inproceedings{xu2026reasoning,
-  title={Reasoning Fails Where Step Flow Breaks},
-  author={Xu, Xiaoyu and Pan, Yulan and Yuan, Xiaosong and Shen, Zhihong and Su, Minghao and Su, Yuanhao and Zhang, Xiaofeng},
-  booktitle={Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (ACL)},
-  year={2026}
-}
 ```
 
 ## License
