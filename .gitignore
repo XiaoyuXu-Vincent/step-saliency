@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Data / artifacts
+*.pkl
+*.jar
+outputs/
+*.pdf
+
+# Build artifacts
+*.egg-info/
+
+# Environment
+.env
+*.log
+
+# Binary images in vendored libs
+eval/Math-main/evaluation/latex2sympy/icon.png
