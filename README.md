@@ -1,8 +1,53 @@
-# Step-Saliency & StepFlow
+# Reasoning Fails Where Step Flow Breaks
 
-Official code for **"Reasoning Fails Where Step Flow Breaks"** (ACL 2026).
+<p align="center">
+  <b>ACL 2026</b> &nbsp;|&nbsp;
+  <a href="https://arxiv.org/abs/2604.06695">Paper</a> &nbsp;|&nbsp;
+  <a href="https://arxiv.org/pdf/2604.06695">PDF</a> &nbsp;|&nbsp;
+  <a href="https://github.com/XiaoyuXu-Vincent/step-saliency">Code</a>
+</p>
 
-Step-Saliency is a step-level diagnostic that aggregates token-level attention-gradient saliency into step-to-step maps, revealing two depth-wise information-flow failure patterns in large reasoning models (LRMs): **Shallow Lock-in** and **Deep Decay**. StepFlow is a lightweight test-time intervention with two components -- **Odds-Equal Bridge (OEB)** for shallow layers and **Step Momentum Injection (SMI)** for deep layers -- that repairs these failure patterns and consistently improves accuracy without retraining.
+<p align="center">
+  <b>Xiaoyu Xu</b><sup>1,2</sup>,
+  <b>Yulan Pan</b><sup>2</sup>,
+  <b>Xiaosong Yuan</b><sup>3‡</sup>,
+  <b>Zhihong Shen</b><sup>2</sup>,
+  <b>Minghao Su</b><sup>2</sup>,
+  <b>Yuanhao Su</b><sup>2</sup>,
+  <b>Xiaofeng Zhang</b><sup>1†</sup>
+</p>
+
+<p align="center">
+  <sup>1</sup>Shanghai Jiao Tong University &nbsp;&nbsp;
+  <sup>2</sup>Fuzhou University &nbsp;&nbsp;
+  <sup>3</sup>Jilin University
+</p>
+
+<p align="center">
+  <sup>†</sup>Corresponding author &nbsp;&nbsp; <sup>‡</sup>Project leader
+</p>
+
+---
+
+## Abstract
+
+Large reasoning models (LRMs) that generate long chains of thought now perform well on multi-step math, science, and coding tasks. However, their behavior is still unstable and hard to interpret, and existing analysis tools struggle with such long, structured reasoning traces. We introduce **Step-Saliency**, which pools attention–gradient scores into step-to-step maps along the question–thinking–summary trajectory. Across several models, Step-Saliency reveals two recurring information-flow failures: **Shallow Lock-in**, where shallow layers over-focus on the current step and barely use earlier context, and **Deep Decay**, where deep layers gradually lose saliency on the thinking segment and the summary increasingly attends to itself and the last few steps. Motivated by these patterns, we propose **StepFlow**, a saliency-inspired test-time intervention that adjusts shallow saliency patterns via Odds-Equal Bridge and adds a small step-level residual in deep layers via Step Momentum Injection. StepFlow improves accuracy on math, science, and coding tasks across multiple LRMs without retraining, indicating that repairing information flow can recover part of their missing reasoning performance.
+
+## Key Contributions
+
+1. **Step-Saliency**: A step-level diagnostic tool that aggregates token-level attention–gradient saliency into step→step maps, making long reasoning traces interpretable at the step level.
+
+2. **Two failure patterns identified**: We discover two depth-wise information-flow failures in large reasoning models:
+   - **Shallow Lock-in** — shallow layers over-attend to the current step and under-use earlier reasoning context.
+   - **Deep Decay** — deep layers progressively lose saliency on the thinking segment; the summary increasingly attends only to itself and the last few steps.
+
+3. **StepFlow**: A test-time intervention (no retraining required) that repairs information flow via two mechanisms:
+   - **Odds-Equal Bridge (OEB)** — redistributes attention mass in shallow layers to restore cross-step flow.
+   - **Step Momentum Injection (SMI)** — injects a small step-level residual in deep layers to counteract saliency decay.
+
+   StepFlow consistently improves accuracy across DeepSeek-R1-Distill (7B/14B/32B), GPT-OSS-20B, and QwQ-32B on AIME24, AIME25, AMC23, MATH-500, GPQA-Diamond, and LiveCodeBench.
+
+## Figures
 
 <p align="center">
   <img src="assets/motivation.png" width="100%" alt="From token-level to step-level saliency"/>
@@ -93,6 +138,17 @@ Override via CLI:
 --smi-strength 0.06       # SMI residual scale alpha
 --oeb-layers 1,3,5,7     # Specific OEB layers
 --tau-max 0.15            # OEB bridge mass upper bound
+```
+
+## Citation
+
+```bibtex
+@inproceedings{xu2026reasoning,
+  title={Reasoning Fails Where Step Flow Breaks},
+  author={Xu, Xiaoyu and Pan, Yulan and Yuan, Xiaosong and Shen, Zhihong and Su, Minghao and Su, Yuanhao and Zhang, Xiaofeng},
+  booktitle={Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (ACL)},
+  year={2026}
+}
 ```
 
 ## License
