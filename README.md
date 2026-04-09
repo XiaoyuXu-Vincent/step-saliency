@@ -1,7 +1,7 @@
 # Reasoning Fails Where Step Flow Breaks
 
 <p align="center">
-  🎉 <b>Accepted to ACL 2026 Main Conference (CCF-A)</b> 🎉
+  🎉 <b><h3>Accepted to ACL 2026 Main Conference (CCF-A)</h3></b> 🎉
 </p>
 
 <p align="center">
