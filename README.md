@@ -1,7 +1,10 @@
 # Reasoning Fails Where Step Flow Breaks
 
 <p align="center">
-  <b>ACL 2026</b> &nbsp;|&nbsp;
+  🎉 <b>Accepted to ACL 2026 Main Conference (CCF-A)</b> 🎉
+</p>
+
+<p align="center">
   <a href="https://arxiv.org/abs/2604.06695">Paper</a> &nbsp;|&nbsp;
   <a href="https://arxiv.org/pdf/2604.06695">PDF</a> &nbsp;|&nbsp;
   <a href="https://github.com/XiaoyuXu-Vincent/step-saliency">Code</a>
