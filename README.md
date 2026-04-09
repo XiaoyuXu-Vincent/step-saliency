@@ -141,17 +141,6 @@ Override via CLI:
 --tau-max 0.15            # OEB bridge mass upper bound
 ```
 
-## Citation
-
-```bibtex
-@inproceedings{xu2026reasoning,
-  title={Reasoning Fails Where Step Flow Breaks},
-  author={Xu, Xiaoyu and Pan, Yulan and Yuan, Xiaosong and Shen, Zhihong and Su, Minghao and Su, Yuanhao and Zhang, Xiaofeng},
-  booktitle={Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (ACL)},
-  year={2026}
-}
-```
-
 ## License
 
 This project is released under the [Apache License 2.0](LICENSE).
