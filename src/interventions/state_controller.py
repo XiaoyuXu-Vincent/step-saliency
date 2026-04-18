@@ -68,6 +68,7 @@ class GenerationStateController:
             state = AttentionState(
                 analysis_mask=None,
                 final_mask=None,
+                question_mask=None,
                 prompt_len=controller._prompt_len,
                 extras={},
             )

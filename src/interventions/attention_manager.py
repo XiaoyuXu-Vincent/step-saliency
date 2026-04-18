@@ -54,11 +54,12 @@ def repeat_kv(hidden_states: torch.Tensor, n_rep: int) -> torch.Tensor:
 
 @dataclass
 class AttentionState:
-    """State derived from input ids (e.g., analysis/final masks)."""
+    """State derived from input ids (e.g., question/analysis/final masks)."""
 
-    analysis_mask: Optional[torch.Tensor]  # shape [batch, seq_len] (bool)
-    final_mask: Optional[torch.Tensor]     # shape [batch, seq_len] (bool)
-    prompt_len: int
+    analysis_mask: Optional[torch.Tensor] = None  # shape [batch, seq_len] (bool)
+    final_mask: Optional[torch.Tensor] = None     # shape [batch, seq_len] (bool)
+    question_mask: Optional[torch.Tensor] = None  # shape [batch, seq_len] (bool)
+    prompt_len: int = 0
     extras: dict = field(default_factory=dict)
 
 

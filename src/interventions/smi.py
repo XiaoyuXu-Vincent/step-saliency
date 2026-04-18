@@ -362,6 +362,7 @@ class StepMomentumInjectionWrapper:
             state = AttentionState(
                 analysis_mask=None,
                 final_mask=None,
+                question_mask=None,
                 prompt_len=self.tracker.prompt_len,
                 extras={
                     "smi_tracker": self.tracker,

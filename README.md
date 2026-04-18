@@ -74,14 +74,7 @@ saliency/
       smi.py                    # Step Momentum Injection (SMI) implementation
       state_controller.py       # State tracking for channel segments
   scripts/
-    eval_gpqa_aqr.py            # GPQA-Diamond evaluation
-    eval_livecodebench.py       # LiveCodeBench evaluation
     analyze_step_saliency.py    # Step saliency analysis
-    run_gpqa.sh                 # Run GPQA evaluation
-    run_math.sh                 # Run MATH evaluation
-    run_livecodebench.sh        # Run LiveCodeBench evaluation
-  eval/
-    Math-main/                  # MATH benchmark evaluation
 ```
 
 ## Installation
@@ -101,26 +94,6 @@ python src/generate_saliency_maps.py \
     --model-path /path/to/model \
     --dataset math \
     --output-dir outputs/saliency
-```
-
-### Run StepFlow Evaluations
-
-GPQA-Diamond:
-
-```bash
-bash scripts/run_gpqa.sh --model-path /path/to/model
-```
-
-MATH:
-
-```bash
-MODEL_PATH=/path/to/model bash scripts/run_math.sh
-```
-
-LiveCodeBench:
-
-```bash
-bash scripts/run_livecodebench.sh --model-path /path/to/model
 ```
 
 ### Hyperparameters

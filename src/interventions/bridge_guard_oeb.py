@@ -77,13 +77,16 @@ class ChannelSegmentTracker:
             self.final_active = True
             self.analysis_active = False
 
-    def build_masks(self, device: torch.device) -> Optional[Tuple[torch.Tensor, torch.Tensor]]:
+    def build_masks(
+        self, device: torch.device
+    ) -> Optional[Tuple[torch.Tensor, torch.Tensor, torch.Tensor]]:
         if not self.labels:
             return None
         labels = torch.tensor(self.labels, device=device)
+        question_mask = (labels == 0).unsqueeze(0)
         analysis_mask = (labels == 1).unsqueeze(0)
         final_mask = (labels == 2).unsqueeze(0)
-        return analysis_mask.bool(), final_mask.bool()
+        return question_mask.bool(), analysis_mask.bool(), final_mask.bool()
 
 
 class _ChannelStateListener:
@@ -109,7 +112,8 @@ class _ChannelStateListener:
         masks = self.tracker.build_masks(input_ids.device)
         if masks is None:
             return
-        analysis_mask, final_mask = masks
+        question_mask, analysis_mask, final_mask = masks
+        state.question_mask = question_mask
         state.analysis_mask = analysis_mask
         state.final_mask = final_mask
         if not state.prompt_len:
@@ -208,7 +212,7 @@ class BridgeGuardOEB(AttentionIntervention):
         if masks is None:
             return attn_logits
 
-        analysis_mask, final_mask = masks
+        question_mask, analysis_mask, final_mask = masks
 
         position_index = self._extract_position(context)
         if position_index is None:
@@ -216,15 +220,18 @@ class BridgeGuardOEB(AttentionIntervention):
 
         device = attn_logits.device
         seq_len = attn_logits.shape[-1]
+        question_mask = question_mask.to(device)[..., :seq_len]
         analysis_mask = analysis_mask.to(device)[..., :seq_len]
         final_mask = final_mask.to(device)[..., :seq_len]
         if position_index >= analysis_mask.shape[-1]:
             return attn_logits
 
-        masks = self._select_masks(analysis_mask, final_mask, position_index)
-        if masks is None:
+        selected = self._select_masks(
+            question_mask, analysis_mask, final_mask, position_index
+        )
+        if selected is None:
             return attn_logits
-        same_mask, bridge_mask = masks
+        same_mask, bridge_mask = selected
         same_mask = same_mask[..., :seq_len]
         bridge_mask = bridge_mask[..., :seq_len]
         if not same_mask.any() or not bridge_mask.any():
@@ -330,14 +337,17 @@ class BridgeGuardOEB(AttentionIntervention):
 
     @staticmethod
     def _select_masks(
+        question_mask: torch.Tensor,
         analysis_mask: torch.Tensor,
         final_mask: torch.Tensor,
         position_index: int,
     ) -> Optional[Tuple[torch.Tensor, torch.Tensor]]:
+        # Paper §4.1 / Appendix B.2: while generating analysis, bridge is the
+        # question; while generating summary (final), bridge is the analysis.
         batch = analysis_mask.shape[0]
         for b in range(batch):
             if analysis_mask[b, position_index]:
-                return analysis_mask, final_mask
+                return analysis_mask, question_mask
             if final_mask[b, position_index]:
                 return final_mask, analysis_mask
         return None
