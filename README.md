@@ -58,7 +58,7 @@ Large reasoning models (LRMs) that generate long chains of thought now perform w
 <p align="center">
   <img src="assets/information_flow_comparsion.png" width="100%" alt="Step-Saliency patterns for shallow vs. deep layers"/>
 </p>
-<p align="center"><em>Figure 2: Step-Saliency patterns for shallow vs. deep layers and correct vs. error traces. Shallow Lock-in (narrow local flow in error traces) and Deep Decay (faster saliency loss in deep layers).</em></p>
+<p align="center"><em>Figure 2: Step-Saliency patterns across shallow vs. deep layers and correct vs. error traces. Error traces show Shallow Lock-in (narrow local flow) and Deep Decay (faster saliency loss in deep layers).</em></p>
 
 ## Project Structure
 
